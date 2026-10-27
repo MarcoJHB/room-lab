@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Room Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="logo">◧</span> Room Lab</div>
+    <div class="top-actions">
+      <button id="newPhotoBtn" class="ghost" hidden>New photo</button>
+      <button id="settingsBtn" class="ghost">Settings</button>
+    </div>
+  </header>
+
+  <main class="app">
+    <section class="stage-wrap">
+      <input type="file" id="roomInput" accept="image/*" hidden>
+
+      <div id="drop" class="drop">
+        <div>
+          <h1>Drop a photo of your room</h1>
+          <p>or <button id="pickRoom" class="link">browse</button>. Wide shots from a corner work best.</p>
+        </div>
+      </div>
+
+      <div id="stageBox" class="stage-box" hidden>
+        <canvas id="stage"></canvas>
+        <div id="busy" class="busy" hidden>
+          <div class="spinner"></div>
+          <div id="busyText">Working…</div>
+        </div>
+      </div>
+
+      <div id="compareBar" class="compare-bar" hidden>
+        <span>Before</span>
+        <input type="range" id="compareRange" min="0" max="100" value="50">
+        <span>After</span>
+      </div>
+
+      <div id="versions" class="versions" hidden></div>
+    </section>
+
+    <aside id="panel" class="panel" hidden>
+      <div class="tabs">
+        <button class="tab active" data-mode="remove">Remove</button>
+        <button class="tab" data-mode="add">Add</button>
+      </div>
+
+      <div id="removePanel" class="mode">
+        <p class="hint">Click a piece of furniture to select it. Click a selection again to unselect.
+          <kbd>Shift</kbd>-click grows the last selection, <kbd>Alt</kbd>-click trims it.</p>
+        <div id="samStatus" class="status"></div>
+        <ul id="selList" class="chips"></ul>
+        <label class="field"><span>Notes (optional)</span>
+          <textarea id="removeNotes" rows="2" placeholder="e.g. keep the rug, fill with bare wall"></textarea>
+        </label>
+        <button id="removeBtn" class="primary" disabled>Remove selected</button>
+      </div>
+
+      <div id="addPanel" class="mode" hidden>
+        <p class="hint">Upload furniture photos, then click where each piece goes, or drag a box to show roughly how big it should be.</p>
+        <input type="file" id="itemInput" accept="image/*" multiple hidden>
+        <button id="addItemBtn" class="secondary">+ Upload furniture</button>
+        <ul id="itemList" class="items"></ul>
+        <label class="field"><span>Notes (optional)</span>
+          <textarea id="addNotes" rows="2" placeholder="e.g. the lamp sits on the side table"></textarea>
+        </label>
+        <button id="addBtn" class="primary" disabled>Add to room</button>
+      </div>
+
+      <div class="panel-foot">
+        <button id="compareBtn" class="ghost" disabled>Compare</button>
+        <button id="retryBtn" class="ghost" disabled>Try again</button>
+        <button id="downloadBtn" class="ghost">Download</button>
+      </div>
+    </aside>
+  </main>
+
+  <dialog id="settings">
+    <form method="dialog" class="settings-form">
+      <h2>Settings</h2>
+      <label class="field"><span>Gemini API key</span>
+        <input type="password" id="apiKey" placeholder="AIza…" autocomplete="off">
+      </label>
+      <p class="hint">Get one at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>. It's only stored in this browser.</p>
+      <label class="field"><span>Model</span>
+        <select id="modelSelect"></select>
+      </label>
+      <label class="field" id="customModelField" hidden><span>Custom model name</span>
+        <input type="text" id="customModel" placeholder="gemini-…">
+      </label>
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost">Cancel</button>
+        <button value="save" id="saveSettings" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
