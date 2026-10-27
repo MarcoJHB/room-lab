@@ -812,4 +812,26 @@ window.addEventListener('paste', (e) => {
   if (!cur()) loadRoom(files[0]); else addItemFiles(files);
 });
 
+// Setup link: opening .../#key=XXXX saves the key on this device, then wipes it from the address bar.
+// The part after # is never sent to GitHub's servers.
+(function importKeyFromLink() {
+  const m = location.hash.match(/(?:^#|&)key=([^&]+)/);
+  if (!m) return;
+  store.set('roomlab.key', decodeURIComponent(m[1]));
+  history.replaceState(null, '', location.pathname + location.search);
+  toast('All set: the API key is saved on this device.');
+})();
+
+$('#copyLink').onclick = async () => {
+  const key = $('#apiKey').value.trim() || settings.key;
+  if (!key) { toast('Paste your API key first.'); return; }
+  const link = `${location.origin}${location.pathname}#key=${encodeURIComponent(key)}`;
+  try {
+    await navigator.clipboard.writeText(link);
+    toast('Setup link copied. Send it privately; opening it once saves the key on that device.', false, 6000);
+  } catch {
+    window.prompt('Copy this setup link:', link);
+  }
+};
+
 if (!settings.key) setTimeout(openSettings, 300);

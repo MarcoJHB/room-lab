@@ -17,6 +17,8 @@ Everything is a static site, so it runs on GitHub Pages with no server.
 3. In the repo: **Settings → Pages → Build and deployment → Deploy from a branch**, pick `main` and `/ (root)`. The site appears at `https://<your-username>.github.io/<repo-name>/` after a minute.
 4. Open the site, paste your key in **Settings**. It's stored only in that browser's localStorage, never in the repo.
 
+**Using it on another laptop:** open Settings, click **Copy setup link for another device**, and send that link privately (WhatsApp, text). Opening it once saves the key in that browser and removes it from the address bar. Never put the key in the repo itself.
+
 **Lock the key down (recommended):** in Google Cloud Console → APIs & Services → Credentials, edit the key and add an HTTP referrer restriction for `https://<your-username>.github.io/*`. Then even if it leaked, it would only work from your site.
 
 GitHub Pages on a private repo needs a paid GitHub plan. A public repo is fine here since there's no secret in the code.
